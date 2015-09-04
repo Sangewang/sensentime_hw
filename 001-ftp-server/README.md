@@ -1,5 +1,5 @@
 ##1 项目要求
-  ###1.1  OptionParser使用
+###1.1  OptionParser使用
   ###1.2  Logger使用
   ###1.3  实现FTP命令
     ####1.3.1 USER/PASS 输入用户名和密码
