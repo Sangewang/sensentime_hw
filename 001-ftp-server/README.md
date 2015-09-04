@@ -1,11 +1,11 @@
-#项目要求
-##OptionParser使用
-##Logger使用
-##实现FTP命令
-###USER/PASS
-###LIST
-###CWD
-###PERT
-###STOP
-##多线程/进程支持，可支持多同时连接
+#1、项目要求
+###1.1  OptionParser使用
+###1.2Logger使用
+###1.3实现FTP命令
+####1.3.1USER/PASS
+####1.3.2LIST
+####1.3.3CWD
+####1.3.4PERT
+####1.3.5STOP
+###1.4多线程/进程支持，可支持多同时连接
 
