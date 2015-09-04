@@ -1,6 +1,6 @@
 ##1 项目要求
 ###1.1  OptionParser使用
-####1.1.1   按照要求启动FTP server
+&nbsp;####1.1.1   按照要求启动FTP server
 #####  Usage: 001-ftp-server/myftp.rb [options]
 #####       -p, --port = PORT       监听端口号
 ####            --host = HOST       绑定IP地址
