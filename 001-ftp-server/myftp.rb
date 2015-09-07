@@ -49,8 +49,8 @@ module MYFTP
           port = Integer(parts[4])*256 + Integer(parts[5])
           puts ("port=#{port}")
           @data_socket=TCPSocket.new(ip_address,port)
-         
          "227 Active connection established (#{port})"
+         
      when 'TYPE'
           option = "A"
           @data_socket=TCPServer.open(0)     
@@ -67,29 +67,26 @@ module MYFTP
           else
             "No Match File,Please Confirm!!"
           end
+          
       when  'LIST'
           connection.respond "125 Opening data connection for file list"
           result = Dir.entries(pwd).join(CRLF)
-          
           @data_socket.write(result)
           @data_socket.close
           "226 Closing data connection,sent #{result.size} bytes"
+          
       when 'QUIT'
           puts("QUIT Command")
           puts "221 Stop Connection!"
           exit;
+          
      when 'STOR'
-        #  if(File.exists?(options))
-             puts options
-             connection.respond "150 Data transfer starting "
-             file=File.new(options,'w')
-             file.syswrite(@data_socket.read)
-
-             @data_socket.close
-             "226 Closing data conenction,sent #{bytes} bytes"
-        # else
-        #     "No Match File,Please Confirm!!"
-        # end
+          puts options
+          connection.respond "150 Data transfer starting "
+          file=File.new(options,'w')
+          file.syswrite(@data_socket.read)
+          @data_socket.close
+          "226 Closing data conenction,sent #{bytes} bytes"
      else 
           puts("502...Command")
           "502 unknown #{cmd}"
