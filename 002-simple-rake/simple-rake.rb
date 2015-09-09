@@ -32,13 +32,16 @@ class MatchRules
     @depend_3 = {}
     @file=File.open(ARGV[0])
     @opt=''    # when input tasks , do some thing
-	  @stack_opt=[] #when input a task , it can save 
+    @stack_opt=[] #when input a task , it can save 
     @over=[]   #judge 
     @judge = true
     @stack=[]  # save hash struct
     @hash_Key=[] # when input -T options ,I should do some other thing
     @hash_Val=[] #when input -T options, do some other thing
   end
+  #
+  #create hash depend relation test1 && test2....
+  #
   def create_task_test_hash(arg)
     if /(.*)\s=>\s(.*)/ =~ arg
       @depend_1[$1]=$2
@@ -47,7 +50,9 @@ class MatchRules
       @task=arg
     end
   end
-
+ #
+ # create hash test && echo tast
+ #
   def create_test_echo_hash
     line = @file.gets  
     if /sh(.*)/=~line
@@ -55,8 +60,11 @@ class MatchRules
     end
       @depend_3[@task]=@content
   end
-
-  def create_task(line)
+ 	
+  #
+  # create all three hash relation
+  #
+  def create_all_hash(line)
     if /task\s(.*)\sdo/ =~ line
     arg = $1
     create_task_test_hash(arg)
@@ -65,7 +73,9 @@ class MatchRules
     end
   end
    
-
+  # 
+  # find depend relation 
+  #
   def convert(str)
     temp = str.scan(/(:test)(\d)/)
     rom = []
@@ -74,8 +84,10 @@ class MatchRules
     end
     rom
   end
-
-  def hash_relation
+  #
+  #it is a function to create all hash ,which employ all above functions 
+  #
+  def create_hash_relation
     while line = @file.gets
       if /(.*)\s:default\s=>\s(.*)/=~line
         @depend_1[":default"]=$2
@@ -83,14 +95,16 @@ class MatchRules
         /desc(.*)/=~line
         @key=$1
         line=@file.gets
-        create_task(line)
+        create_all_hash(line)
       else
       end
     end
   end
-
+  #
+  #This function will handle without -T function like this  ruby simple-rake  test2.rake
+  #I create a Array-stack to save the depend relation and judge if the element has been used
   def execute_without_T_option 
-    hash_relation
+    create_hash_relation
     if @opt==''
       if @depend_1.has_key?(":default")
         @stack.push(@depend_1[":default"])
@@ -124,13 +138,15 @@ class MatchRules
           system code1.delete!("'")
         end
       else
-          code =@depend_3[key]
-          @over.push(key)
-          system code.delete!("'")
+        code =@depend_3[key]
+        @over.push(key)
+        system code.delete!("'")
       end
     end
   end
-  
+  #
+  #This function will handle with -T function like this  ruby simple-rake -T test2.rake
+  # 
   def execute_with_T_option
     filename=File.open(ARGV[0])
     filename.each_line do |file|
@@ -152,7 +168,9 @@ class MatchRules
       i=i+1
     end
   end
-
+ #
+ #this is the main function
+ #
   def main
     if $has_T
       execute_with_T_option
